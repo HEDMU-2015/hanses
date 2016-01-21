@@ -12,6 +12,12 @@ import hans.domain.PostNummer;
 import util.Crud;
 import util.DataAccess;
 
+/**
+ * PostNummerDA - DataAccess for table postnummer
+ * 
+ * @author hi
+ *
+ */
 public class PostNummerDA implements Crud<PostNummer, String> {
 
 	private static final String SELECT_ONE = "SELECT bynavn FROM postnummer where postnummer = ?";
@@ -20,6 +26,12 @@ public class PostNummerDA implements Crud<PostNummer, String> {
 	private static final String UPDATE_ONE = "UPDATE postnummer SET bynavn = ? where postnummer = ?";
 	private static final String DELETE_ONE = "DELETE FROM postnummer where postnummer = ?";
 
+	/**
+	 * Insert row into table postnummer
+	 * 
+	 * @param access instance of DataAccess containing Connection to DB
+	 * @param domain instance of PostNummer containing information to insert
+	 */
 	@Override
 	public void create(DataAccess access, PostNummer domain) {
 		Connection conn = access.getConnection();
@@ -40,6 +52,13 @@ public class PostNummerDA implements Crud<PostNummer, String> {
 		
 	}
 
+	/**
+	 * Read single row from table postnummer
+	 * 
+	 * @param access instance of DataAccess containing Connection to DB
+	 * @param key primary key for select
+	 * @return Optional with instance of PostNummer, if key matches row in table postnummer
+	 */
 	@Override
 	public Optional<PostNummer> read(DataAccess access, String key) {
 		Connection conn = access.getConnection();
@@ -64,6 +83,12 @@ public class PostNummerDA implements Crud<PostNummer, String> {
 		}
 	}
 
+	/**
+	 * Update single row in table postnummer
+	 * 
+	 * @param access instance of DataAccess containing Connection to DB
+	 * @param domain instance of PostNummer containing information to update in postnummer
+	 */
 	@Override
 	public void update(DataAccess access, PostNummer domain) {
 		Connection conn = access.getConnection();
@@ -84,6 +109,12 @@ public class PostNummerDA implements Crud<PostNummer, String> {
 		
 	}
 
+	/**
+	 * Delete single row in table postnummer
+	 * 
+	 * @param access instance of DataAccess containing Connection to DB
+	 * @param domain instance of PostNummer containing primary key of row to delete in table postnummer
+	 */
 	@Override
 	public void delete(DataAccess access, PostNummer domain) {
 		Connection conn = access.getConnection();
@@ -103,6 +134,13 @@ public class PostNummerDA implements Crud<PostNummer, String> {
 		
 	}
 
+	/**
+	 * Return List of PostNummer-objects, according to search-criteria
+	 * 
+	 * @param access instance of DataAccess containing Connection to DB
+	 * @param search search-criteria to match rows in column bynavn in table postnummer
+	 * @return List<PostNummer>
+	 */
 	@Override
 	public List<PostNummer> list(DataAccess access, String search) {
 		Connection conn = access.getConnection();
