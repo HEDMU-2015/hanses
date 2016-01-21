@@ -1,5 +1,10 @@
 package hans.domain;
-
+/**
+ * Domain-class for concept postnummer
+ * 
+ * @author hi
+ *
+ */
 public class PostNummer {
 	private String postnr;
 	private String by;
