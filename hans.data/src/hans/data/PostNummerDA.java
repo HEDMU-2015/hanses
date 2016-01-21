@@ -139,7 +139,7 @@ public class PostNummerDA implements Crud<PostNummer, String> {
 	 * 
 	 * @param access instance of DataAccess containing Connection to DB
 	 * @param search search-criteria to match rows in column bynavn in table postnummer
-	 * @return List<PostNummer>
+	 * @return List of PostNummer-objects
 	 */
 	@Override
 	public List<PostNummer> list(DataAccess access, String search) {
