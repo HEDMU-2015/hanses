@@ -15,7 +15,7 @@ import util.DataAccess;
 /**
  * PostNummerDA - DataAccess for table postnummer
  * 
- * @author hi 
+ * @author hi
  *
  */
 public class PostNummerDA implements Crud<PostNummer, String> {
