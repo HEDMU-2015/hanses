@@ -14,7 +14,7 @@ import util.DataAccess;
 
 /**
  * PostNummerDA - DataAccess for table postnummer
- * 
+ * Test kommentar
  * @author hi
  *
  */
