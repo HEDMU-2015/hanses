@@ -1,6 +1,5 @@
 package hans.data;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -34,10 +33,7 @@ public class PostNummerDA implements Crud<PostNummer, String> {
 	 */
 	@Override
 	public void create(DataAccess access, PostNummer domain) {
-		Connection conn = access.getConnection();
-		PreparedStatement stmt = null;
-		try {
-			stmt = conn.prepareStatement(INSERT_ONE);
+		try (PreparedStatement stmt = access.getConnection().prepareStatement(INSERT_ONE);) {
 			stmt.setString(1, domain.getPostnr());
 			stmt.setString(2, domain.getBy());
 			int antal = stmt.executeUpdate();
@@ -46,8 +42,6 @@ public class PostNummerDA implements Crud<PostNummer, String> {
 			}
 		} catch (SQLException e) {
 			throw new RuntimeException("SQLException caught", e);
-		} finally {
-			cleanup(stmt);
 		}
 		
 	}
@@ -61,25 +55,20 @@ public class PostNummerDA implements Crud<PostNummer, String> {
 	 */
 	@Override
 	public Optional<PostNummer> read(DataAccess access, String key) {
-		Connection conn = access.getConnection();
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		try {
-			stmt = conn.prepareStatement(SELECT_ONE);
+		try (PreparedStatement stmt = access.getConnection().prepareStatement(SELECT_ONE);) {
 			stmt.setString(1, key);
-			rs = stmt.executeQuery();
-			if (rs.next()) {
-				PostNummer pn = new PostNummer();
-				pn.setPostnr(key);
-				pn.setBy(rs.getString("bynavn"));
-				return Optional.of(pn);
-			} else {
-				return Optional.empty();
+			try (ResultSet rs = stmt.executeQuery();) {
+				if (rs.next()) {
+					PostNummer pn = new PostNummer();
+					pn.setPostnr(key);
+					pn.setBy(rs.getString("bynavn"));
+					return Optional.of(pn);
+				} else {
+					return Optional.empty();
+				}
 			}
 		} catch (SQLException e) {
 			throw new RuntimeException("SQLException caught", e);
-		} finally {
-			cleanup(rs, stmt);
 		}
 	}
 
@@ -91,10 +80,7 @@ public class PostNummerDA implements Crud<PostNummer, String> {
 	 */
 	@Override
 	public void update(DataAccess access, PostNummer domain) {
-		Connection conn = access.getConnection();
-		PreparedStatement stmt = null;
-		try {
-			stmt = conn.prepareStatement(UPDATE_ONE);
+		try (PreparedStatement stmt = access.getConnection().prepareStatement(UPDATE_ONE);) {
 			stmt.setString(1, domain.getBy());
 			stmt.setString(2, domain.getPostnr());
 			int antal = stmt.executeUpdate();
@@ -103,8 +89,6 @@ public class PostNummerDA implements Crud<PostNummer, String> {
 			}
 		} catch (SQLException e) {
 			throw new RuntimeException("SQLException caught", e);
-		} finally {
-			cleanup(stmt);
 		}
 		
 	}
@@ -117,10 +101,7 @@ public class PostNummerDA implements Crud<PostNummer, String> {
 	 */
 	@Override
 	public void delete(DataAccess access, PostNummer domain) {
-		Connection conn = access.getConnection();
-		PreparedStatement stmt = null;
-		try {
-			stmt = conn.prepareStatement(DELETE_ONE);
+		try (PreparedStatement stmt = access.getConnection().prepareStatement(DELETE_ONE);) {
 			stmt.setString(1, domain.getPostnr());
 			int antal = stmt.executeUpdate();
 			if (antal != 1) {
@@ -128,8 +109,6 @@ public class PostNummerDA implements Crud<PostNummer, String> {
 			}
 		} catch (SQLException e) {
 			throw new RuntimeException("SQLException caught", e);
-		} finally {
-			cleanup(stmt);
 		}
 		
 	}
@@ -143,48 +122,22 @@ public class PostNummerDA implements Crud<PostNummer, String> {
 	 */
 	@Override
 	public List<PostNummer> list(DataAccess access, String search) {
-		Connection conn = access.getConnection();
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		try {
-			List<PostNummer> list = new ArrayList<>();
-			stmt = conn.prepareStatement(SELECT_MANY);
+		try (PreparedStatement stmt = access.getConnection().prepareStatement(SELECT_MANY);) {
 			stmt.setString(1, "%" + search + "%");
 			stmt.setString(2, search);
-			rs = stmt.executeQuery();
-			while (rs.next()) {
-				PostNummer pn = new PostNummer();
-				pn.setPostnr(rs.getString("postnummer"));
-				pn.setBy(rs.getString("bynavn"));
-				list.add(pn);
+			try (ResultSet rs = stmt.executeQuery();) {
+				List<PostNummer> list = new ArrayList<>();
+				while (rs.next()) {
+					PostNummer pn = new PostNummer();
+					pn.setPostnr(rs.getString("postnummer"));
+					pn.setBy(rs.getString("bynavn"));
+					list.add(pn);
+				}
+				return list;
 			}
-			return list;
 		} catch (SQLException e) {
 			throw new RuntimeException("SQLException caught", e);
-		} finally {
-			cleanup(rs, stmt);
 		}
 	}
 	
-	private void cleanup(ResultSet rs, PreparedStatement stmt) {
-		if (rs != null) {
-			try {
-				rs.close();
-			} catch (SQLException e) {
-			}
-		}
-		cleanup(stmt);
-		
-	}
-
-	private void cleanup(PreparedStatement stmt) {
-		if (stmt != null) {
-			try {
-				stmt.close();
-			} catch (SQLException e) {
-			}
-		}
-		
-	}
-
 }

@@ -13,37 +13,42 @@ public class PostNummerLogicImpl implements PostNummerLogic {
 
 	@Override
 	public void create(PostNummer domain) {
-		DataAccess dataaccess = new DataAccess();
-		new LogicTrans<>(dataaccess)
-			.transaction(() -> postnummerda.create(dataaccess, domain));				
+		try (DataAccess dataaccess = new DataAccess();) {
+			new LogicTrans<>(dataaccess)
+				.transaction(() -> postnummerda.create(dataaccess, domain));
+		}
 	}
 
 	@Override
 	public Optional<PostNummer> read(String key) {
-		DataAccess dataaccess = new DataAccess();
-		return new LogicTrans<Optional<PostNummer>>(dataaccess)
-			.transaction(() -> postnummerda.read(dataaccess, key));				
+		try (DataAccess dataaccess = new DataAccess();) {
+			return new LogicTrans<Optional<PostNummer>>(dataaccess)
+					.transaction(() -> postnummerda.read(dataaccess, key));				
+		}
 	}
 
 	@Override
 	public void update(PostNummer domain) {
-		DataAccess dataaccess = new DataAccess();
-		new LogicTrans<>(dataaccess)
-			.transaction(() -> postnummerda.update(dataaccess, domain));
+		try (DataAccess dataaccess = new DataAccess();) {
+			new LogicTrans<>(dataaccess)
+				.transaction(() -> postnummerda.update(dataaccess, domain));
+		}
 	}
 
 	@Override
 	public void delete(PostNummer domain) {
-		DataAccess dataaccess = new DataAccess();
-		new LogicTrans<>(dataaccess)
-			.transaction(() -> postnummerda.delete(dataaccess, domain));
+		try (DataAccess dataaccess = new DataAccess();) {
+			new LogicTrans<>(dataaccess)
+				.transaction(() -> postnummerda.delete(dataaccess, domain));
+		}
 	}
 	
 	@Override
 	public List<PostNummer> list(String search) {
-		DataAccess dataaccess = new DataAccess();
-		return new LogicTrans<List<PostNummer>>(dataaccess)
-			.transaction(() -> postnummerda.list(dataaccess, search));				
+		try (DataAccess dataaccess = new DataAccess();) {
+			return new LogicTrans<List<PostNummer>>(dataaccess)
+					.transaction(() -> postnummerda.list(dataaccess, search));				
+		}
 	}
 
 }

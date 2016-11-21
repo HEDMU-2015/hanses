@@ -1,16 +1,17 @@
 package util;
 
+import java.io.Closeable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DataAccess {
+public class DataAccess implements Closeable {
 	
 	private Connection conn;
 	
 	public DataAccess() {
 		try {
-			this.conn =	DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/mydatabase", "SA", "");
+			this.conn =	DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/mydb", "SA", "");
 			this.conn.setAutoCommit(false);
 		} catch (SQLException e) {
 			throw new RuntimeException("Connection could not be established", e);

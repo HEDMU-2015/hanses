@@ -18,9 +18,6 @@ public class LogicTrans<T> {
 		} catch (Exception e) {
 			dataaccess.rollback();
 			throw new RuntimeException("Transaction rolled back", e);
-		} finally {
-			dataaccess.close();
-			
 		}
 	}
 
@@ -31,9 +28,6 @@ public class LogicTrans<T> {
 		} catch (Exception e) {
 			dataaccess.rollback();
 			throw new RuntimeException("Transaction rolled back", e);
-		} finally {
-			dataaccess.close();
-			
 		}
 	}
 

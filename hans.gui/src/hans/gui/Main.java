@@ -14,15 +14,6 @@ public class Main {
 		for (PostNummer p : list) {
 			System.out.println(p);
 		}
-		
-//		PostNummer pn = pl.read("7400").get();
-//		System.out.println(pn);
-//		
-//		pn.setBy("Frederiksberg");
-//		pn.setPostnr("1001");
-//		pl.delete(pn);
-//		pl.create(pn);
-
 	}
 
 }

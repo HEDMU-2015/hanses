@@ -7,6 +7,7 @@ import util.MyProperty;
 public class PostNummerProperty {
 	private final static File file = new File("postnummer.properties");
 	private final static String POSTNUMMERLOGIC = "logic";
+	private final static String ENVIRONMENT = "environment";
 	private final static PostNummerProperty instance = new PostNummerProperty();
 	private MyProperty props = new MyProperty(file);
 	
@@ -20,6 +21,10 @@ public class PostNummerProperty {
 
 	public String getLogic() {
 		return props.getProperty(POSTNUMMERLOGIC);
+	}
+	
+	public String getEnvironment() {
+		return props.getProperty(ENVIRONMENT);
 	}
 	
 
