@@ -20,7 +20,7 @@ import util.DataAccess;
 public class PostNummerDA implements Crud<PostNummer, String> {
 
 	private static final String SELECT_ONE = "SELECT bynavn FROM postnummer where postnummer = ?";
-	private static final String SELECT_MANY = "SELECT postnummer, bynavn FROM postnummer where UPPER(bynavn) LIKE ? or postnummer LIKE ? ORDER BY postnummer";
+	private static final String SELECT_MANY = "SELECT postnummer, bynavn FROM postnummer WHERE UPPER(bynavn) LIKE ? OR postnummer LIKE ? ORDER BY postnummer";
 	private static final String INSERT_ONE = "INSERT INTO postnummer (postnummer, bynavn) VALUES(?, ?)";
 	private static final String UPDATE_ONE = "UPDATE postnummer SET bynavn = ? where postnummer = ?";
 	private static final String DELETE_ONE = "DELETE FROM postnummer where postnummer = ?";
@@ -123,7 +123,7 @@ public class PostNummerDA implements Crud<PostNummer, String> {
 	@Override
 	public List<PostNummer> list(DataAccess access, String search) {
 		try (PreparedStatement stmt = access.getConnection().prepareStatement(SELECT_MANY);) {
-			stmt.setString(1, "%" + search + "%");
+			stmt.setString(1, "%" + search.toUpperCase() + "%");
 			stmt.setString(2, search);
 			try (ResultSet rs = stmt.executeQuery();) {
 				List<PostNummer> list = new ArrayList<>();

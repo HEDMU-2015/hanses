@@ -2,6 +2,7 @@ package hans.logic;
 
 import java.io.File;
 
+import util.Environment;
 import util.MyProperty;
 
 public class PostNummerProperty {
@@ -10,11 +11,11 @@ public class PostNummerProperty {
 	private final static String ENVIRONMENT = "environment";
 	private final static PostNummerProperty instance = new PostNummerProperty();
 	private MyProperty props = new MyProperty(file);
-	
+
 	private PostNummerProperty() {
-		
+
 	}
-	
+
 	public static PostNummerProperty getInstance() {
 		return instance;
 	}
@@ -22,10 +23,16 @@ public class PostNummerProperty {
 	public String getLogic() {
 		return props.getProperty(POSTNUMMERLOGIC);
 	}
-	
-	public String getEnvironment() {
-		return props.getProperty(ENVIRONMENT);
+
+	public Environment getEnvironment() {
+		String env = props.getProperty(ENVIRONMENT);
+		if (env.equalsIgnoreCase(Environment.PROD.name())) {
+			return Environment.PROD;
+		} else if (env.equalsIgnoreCase(Environment.TEST.name())) {
+			return Environment.TEST;
+		} else {
+			return null;
+		}
 	}
-	
 
 }
